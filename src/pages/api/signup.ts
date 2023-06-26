@@ -1,0 +1,44 @@
+import { users } from "@/server/data";
+import { setJwt } from "@/server/jwt";
+import { BaseResponseData } from "@/types/reponse";
+import { UserPostSuccess, UserWithPassword } from "@/types/user";
+import { NextApiRequest, NextApiResponse } from "next";
+
+const handler = (
+  req: NextApiRequest,
+  res: NextApiResponse<UserPostSuccess | BaseResponseData>,
+) => {
+  if (req.method === "POST") {
+    const { username, password, email } = req.body;
+
+    const userExists = users.find(
+      (u) => u.email === email || u.username === username,
+    );
+
+    if (userExists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const newUser: UserWithPassword = {
+      id: Date.now(),
+      email,
+      username,
+      password,
+    };
+
+    users.push(newUser);
+
+    setJwt(res, newUser.id);
+
+    return res.status(201).json({
+      message: "User created",
+      user: {
+        id: newUser.id,
+        username,
+        email,
+      },
+    });
+  }
+};
+
+export default handler;
