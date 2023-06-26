@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import cookie from "cookie";
 
 export const setJwt = (res: NextApiResponse, id: number) => {
-  const token = jwt.sign({ id }, process.env.JWT_SECRET!);
+  const token = jwt.sign({ id }, process.env.JWT_SECRET || "secret");
 
   res.setHeader(
     "Set-Cookie",
