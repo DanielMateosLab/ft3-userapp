@@ -1,5 +1,3 @@
-import { BaseResponseData } from "./reponse";
-
 export interface UserWithPassword {
   id: number;
   username: string;
@@ -7,6 +5,6 @@ export interface UserWithPassword {
   password: string;
 }
 
-export interface UserPostSuccess extends BaseResponseData {
+export interface UserResponseSuccess {
   user: Omit<UserWithPassword, "password">;
 }

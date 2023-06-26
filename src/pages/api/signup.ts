@@ -1,12 +1,12 @@
 import { users } from "@/server/data";
 import { setJwt } from "@/server/jwt";
 import { BaseResponseData } from "@/types/reponse";
-import { UserPostSuccess, UserWithPassword } from "@/types/user";
+import { UserResponseSuccess, UserWithPassword } from "@/types/user";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = (
   req: NextApiRequest,
-  res: NextApiResponse<UserPostSuccess | BaseResponseData>,
+  res: NextApiResponse<UserResponseSuccess | BaseResponseData>,
 ) => {
   if (req.method === "POST") {
     const { username, password, email } = req.body;
@@ -30,14 +30,7 @@ const handler = (
 
     setJwt(res, newUser.id);
 
-    return res.status(201).json({
-      message: "User created",
-      user: {
-        id: newUser.id,
-        username,
-        email,
-      },
-    });
+    return res.status(201).json({ user: { id: newUser.id, username, email } });
   }
 };
 
