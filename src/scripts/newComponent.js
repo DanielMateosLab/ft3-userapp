@@ -9,12 +9,11 @@ const componentName = process.argv[2];
 const targetPath = path.join(__dirname, "..", "components");
 const componentPath = path.join(targetPath, `${componentName}.tsx`);
 const storybookPath = path.join(targetPath, `${componentName}.stories.tsx`);
+const testPath = path.join(targetPath, `${componentName}.test.tsx`);
 
-const componentTemplate = `import { FC } from "react";
+const componentTemplate = `interface ${componentName}Props {}
 
-interface ${componentName}Props {}
-
-const ${componentName}: FC<${componentName}Props> = ({}) => {
+const ${componentName}: React.FC<${componentName}Props> = ({}) => {
   return null;
 };
 
@@ -34,5 +33,18 @@ type Story = StoryObj<typeof ${componentName}>;
 
 export const Primary: Story = { args: {} };`;
 
+const testTemplate = `import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom";
+import ${componentName} from "./${componentName}";
+
+describe("${componentName}", () => {
+  it("renders", async () => {
+    render(<${componentName} />); 
+  });
+});
+`;
+
 fs.writeFileSync(componentPath, componentTemplate);
 fs.writeFileSync(storybookPath, storybookTemplate);
+fs.writeFileSync(testPath, testTemplate);
