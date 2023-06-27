@@ -26,6 +26,8 @@ export const Default: Story = {
   args: {
     label: "Write something",
     placeholder: "Type here",
+    type: "text",
+    name: "my-input",
   },
   render: (args) => <InputWithState {...args} />,
 };
