@@ -7,7 +7,7 @@ describe("Button", () => {
   it("renders the provided text and calls the onClick function when clicked", async () => {
     const mockOnClick = jest.fn();
     const buttonText = "Hello World";
-    render(<Button text={buttonText} onClick={mockOnClick} />);
+    render(<Button onClick={mockOnClick}>{buttonText}</Button>);
 
     await userEvent.click(screen.getByText(buttonText));
 
