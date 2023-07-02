@@ -9,6 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: React.FC<ButtonProps> = ({
   children,
   variant = "primary",
+  className = "",
   ...props
 }) => {
   const buttonClasses = {
@@ -19,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`${buttonClasses[variant]} font-semibold py-2 px-4 rounded border`}
+      className={`${buttonClasses[variant]} font-semibold py-2 px-4 rounded border ${className}`}
       {...props}
     >
       {children}
