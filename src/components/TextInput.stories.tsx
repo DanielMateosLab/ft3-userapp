@@ -1,6 +1,6 @@
+import { useArgs } from "@storybook/addons";
 import type { Meta, StoryObj } from "@storybook/react";
-import TextInput, { TextInputProps } from "./TextInput";
-import { useState } from "react";
+import TextInput from "./TextInput";
 
 const meta = {
   title: "Components/TextInput",
@@ -11,13 +11,13 @@ export default meta;
 
 type Story = StoryObj<typeof TextInput>;
 
-const InputWithState: React.FC<TextInputProps> = (props) => {
-  const [value, setValue] = useState("");
+const InteractiveInput: Story["render"] = (props) => {
+  const [_, updateArgs] = useArgs();
+
   return (
     <TextInput
       {...props}
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
+      onChange={(e) => updateArgs({ value: e.target.value })}
     />
   );
 };
@@ -28,6 +28,7 @@ export const Default: Story = {
     placeholder: "Type here",
     type: "text",
     name: "my-input",
+    value: "",
   },
-  render: (args) => <InputWithState {...args} />,
+  render: InteractiveInput,
 };
