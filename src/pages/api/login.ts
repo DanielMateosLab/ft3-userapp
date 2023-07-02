@@ -1,7 +1,7 @@
 import { users } from "@/server/data";
 import { setJwt } from "@/server/jwt";
 import { BaseResponseData } from "@/types/reponse";
-import { UserResponseSuccess, UserWithPassword } from "@/types/user";
+import { UserResponseSuccess, User } from "@/types/user";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = (
@@ -11,7 +11,7 @@ const handler = (
   if (req.method === "POST") {
     const { email, password } = req.body;
 
-    const user = users.find((user: UserWithPassword) => user.email === email);
+    const user = users.find((user: User) => user.email === email);
 
     if (!user || user.password !== password) {
       return res.status(401).json({ message: "Invalid email or password" });

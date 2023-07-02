@@ -1,3 +1,3 @@
-import { UserWithPassword } from "@/types/user";
+import { User } from "@/types/user";
 
-export let users: UserWithPassword[] = [];
+export let users: User[] = [];

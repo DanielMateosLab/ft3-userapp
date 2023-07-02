@@ -1,7 +1,7 @@
 import { users } from "@/server/data";
 import { setJwt } from "@/server/jwt";
 import { BaseResponseData } from "@/types/reponse";
-import { UserResponseSuccess, UserWithPassword } from "@/types/user";
+import { UserResponseSuccess, User } from "@/types/user";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = (
@@ -19,7 +19,7 @@ const handler = (
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const newUser: UserWithPassword = {
+    const newUser: User = {
       id: Date.now(),
       email,
       username,

@@ -1,10 +1,12 @@
-export interface UserWithPassword {
+export interface User {
   id: number;
   username: string;
   email: string;
   password: string;
 }
 
+export type UserWithoutPassword = Omit<User, "password">;
+
 export interface UserResponseSuccess {
-  user: Omit<UserWithPassword, "password">;
+  user: UserWithoutPassword;
 }
