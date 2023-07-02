@@ -4,6 +4,7 @@ import Button from "./Button";
 const meta = {
   title: "Components/Button",
   component: Button,
+  argTypes: { onClick: { action: "clicked" } },
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -11,5 +12,12 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
-  args: { children: "Click here", onClick: () => console.log("Clicked") },
+  args: {
+    variant: "primary",
+    children: "Click here",
+  },
+};
+
+export const Secondary: Story = {
+  args: { ...Primary.args, variant: "secondary" },
 };
