@@ -48,4 +48,11 @@ describe("TextInput", () => {
 
     expect(screen.getByLabelText("Test")).toHaveValue("Hello");
   });
+
+  it("displays an error", () => {
+    const error = "This is an error";
+    render(<TextInput name="test" label="Test" error={error} />);
+
+    expect(screen.getByText(error)).toBeInTheDocument();
+  });
 });

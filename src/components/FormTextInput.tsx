@@ -12,11 +12,12 @@ const FormTextInput: React.FC<FormTextInputProps> = (props) => {
   const [field, meta] = useField(props);
 
   return (
-    <div className="my-2">
-      <TextInput {...field} {...props} />
-      {meta.touched && meta.error ? (
-        <div className="text-red-500 text-xs italic">{meta.error}</div>
-      ) : null}
+    <div>
+      <TextInput
+        {...field}
+        {...props}
+        error={meta.touched ? meta.error : undefined}
+      />
     </div>
   );
 };
