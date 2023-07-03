@@ -1,7 +1,9 @@
 import Button from "@/components/Button";
 import FormTextInput from "@/components/FormTextInput";
 import { useFetch } from "@/services/fetch";
+import { useUser } from "@/services/user";
 import { BaseResponseData } from "@/types/response";
+import { UserResponseSuccess } from "@/types/user";
 import { unexpectedErrorMessage } from "@/utils/constants";
 import { signupUserSchema } from "@/utils/validators/userValidator";
 import { Form, Formik } from "formik";
@@ -12,6 +14,7 @@ const Signup = () => {
   const router = useRouter();
   const [error, setError] = useState<string>();
   const { appPostFetch } = useFetch();
+  const { setUser } = useUser();
 
   return (
     <div className="pt-4">
@@ -34,6 +37,8 @@ const Signup = () => {
               const data: BaseResponseData = await res.json();
               setError(data.message);
             } else {
+              const data: UserResponseSuccess = await res.json();
+              setUser(data.user);
               router.push("/dashboard");
             }
           } catch (err) {

@@ -62,8 +62,24 @@ describe("Signup Page", () => {
 
     await fillFormAndSubmit();
 
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith("/api/signup", expect.anything());
+  });
+
+  it("should handle successful signup correctly", async () => {
+    const mockUser = { id: 1 };
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ user: mockUser }),
+    } as Response);
+    const { mockSetUser } = render(<Signup />);
+
+    await fillFormAndSubmit();
+
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
-    expect(mockPush).toHaveBeenCalledWith("/dashboard");
+    expect(mockPush).toHaveBeenCalledTimes(1);
+    expect(mockSetUser).toHaveBeenCalledTimes(1);
+    expect(mockSetUser).toHaveBeenCalledWith(mockUser);
   });
 
   it("should handle specific signup error correctly", async () => {
