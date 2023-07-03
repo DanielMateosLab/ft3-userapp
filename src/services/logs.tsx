@@ -1,7 +1,7 @@
-import { useUser } from "@/context/userContext";
+import { useUser } from "@/services/user";
 import { LogData } from "@/types/logData";
 import { useRouter } from "next/router";
-import { createBaseHeaders } from "./appFetch";
+import { createBaseHeaders } from "./fetch";
 
 export const useLogger = () => {
   const { user } = useUser();

@@ -1,4 +1,4 @@
-import { useFetch } from "@/services/appFetch";
+import { useFetch } from "@/services/fetch";
 import { UserWithoutPassword } from "@/types/user";
 import Cookies from "js-cookie";
 import {
