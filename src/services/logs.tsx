@@ -9,6 +9,7 @@ export const useLogger = () => {
 
   /** Logs an error, if it fails, tries to log the error up to three times */
   const log = (errorInfo: unknown) => {
+    if (process.env.NODE_ENV === "test") return;
     const logData: LogData = {
       timestamp: new Date().toISOString(),
       path: pathname,

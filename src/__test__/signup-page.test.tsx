@@ -1,25 +1,21 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useRouter } from "next/router";
 import Signup from "@/pages/signup";
+import { render } from "@/utils/testUtils";
 
 const mockPush = jest.fn();
 jest.mock("next/router", () => ({
   useRouter: () => ({ push: mockPush }),
 }));
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    ok: true,
-    json: () => Promise.resolve({}),
-  } as Response),
-);
+const mockFetch = jest.fn();
+jest.mock("../services/fetch", () => ({
+  useFetch: () => ({
+    appPostFetch: mockFetch,
+  }),
+}));
 
 describe("Signup Page", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   const fillFormAndSubmit = async () => {
     await userEvent.type(
       screen.getByPlaceholderText("Enter your name"),
@@ -59,27 +55,30 @@ describe("Signup Page", () => {
   });
 
   it("should handle form submission correctly", async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ user: { id: 1 } }),
+    } as Response);
     render(<Signup />);
 
     await fillFormAndSubmit();
 
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
     expect(mockPush).toHaveBeenCalledWith("/dashboard");
   });
 
-  it("should handle signup error correctly", async () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: false,
-        json: () => Promise.resolve({ message: "Signup error" }),
-      } as Response),
-    );
+  it("should handle specific signup error correctly", async () => {
+    const errorMessage = "Email already exists";
+    mockFetch.mockResolvedValue({
+      ok: false,
+      json: async () => ({ message: errorMessage }),
+    } as Response);
     render(<Signup />);
 
     await fillFormAndSubmit();
 
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
-    expect(screen.getByText("Signup error")).toBeInTheDocument();
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+    expect(screen.getByText(errorMessage)).toBeInTheDocument();
     expect(mockPush).not.toHaveBeenCalled();
   });
 });

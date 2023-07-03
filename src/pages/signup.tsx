@@ -1,5 +1,8 @@
 import Button from "@/components/Button";
 import FormTextInput from "@/components/FormTextInput";
+import { useFetch } from "@/services/fetch";
+import { BaseResponseData } from "@/types/response";
+import { unexpectedErrorMessage } from "@/utils/constants";
 import { signupUserSchema } from "@/utils/validators/userValidator";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
@@ -8,6 +11,7 @@ import { useState } from "react";
 const Signup = () => {
   const router = useRouter();
   const [error, setError] = useState<string>();
+  const { appPostFetch } = useFetch();
 
   return (
     <div className="pt-4">
@@ -23,19 +27,17 @@ const Signup = () => {
         validationSchema={signupUserSchema}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            const res = await fetch("/api/signup", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(values),
-            });
-            if (!res.ok) {
-              const data = await res.json();
+            const res = await appPostFetch("/api/signup", values);
+            if (!res) {
+              setError(unexpectedErrorMessage);
+            } else if (!res.ok) {
+              const data: BaseResponseData = await res.json();
               setError(data.message);
             } else {
               router.push("/dashboard");
             }
-          } catch (e) {
-            setError("An error occurred. Please try again");
+          } catch (err) {
+            setError(unexpectedErrorMessage);
           } finally {
             setSubmitting(false);
           }
