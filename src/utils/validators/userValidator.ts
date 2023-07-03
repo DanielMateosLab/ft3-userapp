@@ -17,3 +17,8 @@ export const signupUserSchema = object({
     .oneOf([ref("password")], "Passwords must match")
     .required("Please confirm your password"),
 });
+
+export const loginUserSchema = object({
+  email: string().email("Invalid email").required("Email is required"),
+  password: string().required("Password is required"),
+});

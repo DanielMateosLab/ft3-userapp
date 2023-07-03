@@ -1,20 +1,11 @@
 import Button from "@/components/Button";
 import FormTextInput from "@/components/FormTextInput";
-import { useFetch } from "@/services/fetch";
-import { useUser } from "@/services/user";
-import { BaseResponseData } from "@/types/response";
-import { UserResponseSuccess } from "@/types/user";
-import { unexpectedErrorMessage } from "@/utils/constants";
+import { useAuthenticate } from "@/services/authentication";
 import { signupUserSchema } from "@/utils/validators/userValidator";
 import { Form, Formik } from "formik";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
 const Signup = () => {
-  const router = useRouter();
-  const [error, setError] = useState<string>();
-  const { appPostFetch } = useFetch();
-  const { setUser } = useUser();
+  const { error, signup } = useAuthenticate("signup");
 
   return (
     <div className="pt-4">
@@ -29,23 +20,8 @@ const Signup = () => {
         }}
         validationSchema={signupUserSchema}
         onSubmit={async (values, { setSubmitting }) => {
-          try {
-            const res = await appPostFetch("/api/signup", values);
-            if (!res) {
-              setError(unexpectedErrorMessage);
-            } else if (!res.ok) {
-              const data: BaseResponseData = await res.json();
-              setError(data.message);
-            } else {
-              const data: UserResponseSuccess = await res.json();
-              setUser(data.user);
-              router.push("/dashboard");
-            }
-          } catch (err) {
-            setError(unexpectedErrorMessage);
-          } finally {
-            setSubmitting(false);
-          }
+          await signup(values);
+          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
