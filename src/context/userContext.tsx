@@ -1,11 +1,13 @@
+import { useFetch } from "@/services/appFetch";
 import { UserWithoutPassword } from "@/types/user";
 import Cookies from "js-cookie";
 import {
   createContext,
   useContext,
-  ReactNode,
   useState,
   useEffect,
+  PropsWithChildren,
+  FC,
 } from "react";
 
 interface IUserContext {
@@ -13,38 +15,37 @@ interface IUserContext {
   setUser: (user: UserWithoutPassword | undefined) => void;
 }
 
-const UserContext = createContext<IUserContext | undefined>(undefined);
+export const UserContext = createContext<IUserContext | undefined>(undefined);
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<UserWithoutPassword>();
+
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      <UserFetcher>{children}</UserFetcher>
+    </UserContext.Provider>
+  );
+};
+
+const UserFetcher: FC<PropsWithChildren> = ({ children }) => {
+  const { appFetch } = useFetch();
+  const { setUser } = useUser();
 
   useEffect(() => {
     const fetchUserData = async () => {
       const loggedIn = Cookies.get("loggedIn");
       if (loggedIn) {
-        try {
-          const res = await fetch("/api/user");
-          if (res.ok) {
-            const data = await res.json();
-            setUser(data.user);
-          } else {
-            Cookies.remove("loggedIn");
-          }
-        } catch (err) {
-          console.log(err); // TODO: implement real error handling
+        const res = await appFetch("/api/users/me");
+        if (res?.ok) {
+          const data = await res.json();
+          setUser(data.user);
         }
       }
     };
     fetchUserData();
-  }, [setUser]);
+  }, [setUser, appFetch]);
 
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <>{children}</>;
 };
 
 export const useUser = (): IUserContext => {
