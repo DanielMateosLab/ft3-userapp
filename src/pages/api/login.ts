@@ -1,5 +1,5 @@
 import { users } from "@/server/data";
-import { setJwt } from "@/server/jwt";
+import { setAuthenticatedCookies } from "@/server/jwt";
 import { BaseResponseData } from "@/types/response";
 import { UserResponseSuccess, User } from "@/types/user";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -17,7 +17,7 @@ const handler = (
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    setJwt(res, user.id);
+    setAuthenticatedCookies(res, user.id);
 
     const { password: _, ...userWithoutPassword } = user;
 

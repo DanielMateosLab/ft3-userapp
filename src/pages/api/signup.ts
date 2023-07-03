@@ -1,5 +1,5 @@
 import { users } from "@/server/data";
-import { setJwt } from "@/server/jwt";
+import { setAuthenticatedCookies } from "@/server/jwt";
 import { BaseResponseData } from "@/types/response";
 import { UserResponseSuccess, User } from "@/types/user";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -28,7 +28,7 @@ const handler = (
 
     users.push(newUser);
 
-    setJwt(res, newUser.id);
+    setAuthenticatedCookies(res, newUser.id);
 
     return res.status(201).json({ user: { id: newUser.id, username, email } });
   }
