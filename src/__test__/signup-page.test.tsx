@@ -2,6 +2,7 @@ import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Signup from "@/pages/signup";
 import { render } from "@/utils/testUtils";
+import { unexpectedErrorMessage } from "@/utils/constants";
 
 const mockPush = jest.fn();
 jest.mock("next/router", () => ({
@@ -10,9 +11,7 @@ jest.mock("next/router", () => ({
 
 const mockFetch = jest.fn();
 jest.mock("../services/fetch", () => ({
-  useFetch: () => ({
-    appPostFetch: mockFetch,
-  }),
+  useFetch: () => ({ appPostFetch: mockFetch }),
 }));
 
 describe("Signup Page", () => {
@@ -79,6 +78,17 @@ describe("Signup Page", () => {
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("should handle unexpected signup error correctly", async () => {
+    mockFetch.mockRejectedValue({});
+    render(<Signup />);
+
+    await fillFormAndSubmit();
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+    expect(screen.getByText(unexpectedErrorMessage)).toBeInTheDocument();
     expect(mockPush).not.toHaveBeenCalled();
   });
 });
