@@ -1,6 +1,6 @@
 import { users } from "@/server/data";
 import { setJwt } from "@/server/jwt";
-import { BaseResponseData } from "@/types/reponse";
+import { BaseResponseData } from "@/types/response";
 import { UserResponseSuccess, User } from "@/types/user";
 import { NextApiRequest, NextApiResponse } from "next";
 
