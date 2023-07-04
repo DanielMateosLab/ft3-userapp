@@ -4,16 +4,6 @@ import { render } from "@/utils/testUtils";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-const mockPush = jest.fn();
-jest.mock("next/router", () => ({
-  useRouter: () => ({ push: mockPush }),
-}));
-
-const mockFetch = jest.fn();
-jest.mock("../services/fetch", () => ({
-  useFetch: () => ({ appPostFetch: mockFetch }),
-}));
-
 const mockLogout = jest.fn();
 jest.mock("../services/authentication", () => ({
   useLogout: () => ({ logout: mockLogout, loading: false }),
