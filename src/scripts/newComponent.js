@@ -33,10 +33,11 @@ type Story = StoryObj<typeof ${componentName}>;
 
 export const Primary: Story = { args: {} };`;
 
-const testTemplate = `import { render, screen } from "@testing-library/react";
+const testTemplate = `import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import ${componentName} from "./${componentName}";
+import { render } from "@/utils/testUtils";
 
 describe("${componentName}", () => {
   it("renders", async () => {
