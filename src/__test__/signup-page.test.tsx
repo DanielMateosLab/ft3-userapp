@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import Signup from "@/pages/signup";
 import { render } from "@/utils/testUtils";
 import { unexpectedErrorMessage } from "@/utils/constants";
+import { UserWithoutPassword } from "@/types/user";
 
 const mockPush = jest.fn();
 jest.mock("next/router", () => ({
@@ -106,5 +107,16 @@ describe("Signup Page", () => {
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
     expect(screen.getByText(unexpectedErrorMessage)).toBeInTheDocument();
     expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("should redirect to dashboard if user is already authenticated", () => {
+    render(<Signup />, {
+      initialValues: {
+        user: { id: 1 } as UserWithoutPassword,
+      },
+    });
+
+    expect(mockPush).toHaveBeenCalledTimes(1);
+    expect(mockPush).toHaveBeenCalledWith("/dashboard");
   });
 });
