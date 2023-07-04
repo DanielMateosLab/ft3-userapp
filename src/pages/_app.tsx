@@ -9,11 +9,13 @@ const inter = Inter({ subsets: ["latin"] });
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
-      <HorizontalContainer>
-        <main className={inter.className}>
-          <Component {...pageProps} />
-        </main>
-      </HorizontalContainer>
+      <div className="min-h-screen bg-gray-100">
+        <HorizontalContainer>
+          <main className={inter.className}>
+            <Component {...pageProps} />
+          </main>
+        </HorizontalContainer>
+      </div>
     </UserProvider>
   );
 }
