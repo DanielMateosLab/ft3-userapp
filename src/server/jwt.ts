@@ -22,3 +22,22 @@ export const setAuthenticatedCookies = (res: NextApiResponse, id: number) => {
     }),
   ]);
 };
+
+export const removeAuthenticatedCookies = (res: NextApiResponse) => {
+  res.setHeader("Set-Cookie", [
+    cookie.serialize("auth", "", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      expires: new Date(0),
+      path: "/",
+    }),
+    cookie.serialize("loggedIn", "false", {
+      httpOnly: false,
+      secure: true,
+      sameSite: "strict",
+      expires: new Date(0),
+      path: "/",
+    }),
+  ]);
+};

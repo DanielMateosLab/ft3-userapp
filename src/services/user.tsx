@@ -43,7 +43,7 @@ const UserFetcher: FC<PropsWithChildren> = ({ children }) => {
       }
     };
     fetchUserData();
-  }, [setUser, appFetch]);
+  }, []);
 
   return <>{children}</>;
 };
