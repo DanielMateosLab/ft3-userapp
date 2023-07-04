@@ -10,7 +10,7 @@ const ProtectedRoute: FC<PropsWithChildren> = ({ children }) => {
   if (user) return <>{children}</>;
 
   return (
-    <div>
+    <div className="pt-4">
       <Heading text="Wait a minute, you are not logged in!" />
       <div className="my-4 max-w-md">
         <UnauthImg />

@@ -7,7 +7,7 @@ interface UserDataProps {
 
 const UserData: React.FC<UserDataProps> = ({ user }) => {
   return (
-    <article className="border p-4 rounded shadow">
+    <article className="border p-4 rounded shadow bg-white">
       <div className="flex">
         <div className="grow">
           <h2 className="text-xl text-amber-900 font-bold mb-2">
