@@ -11,7 +11,7 @@ interface AuthFunctions {
   login: (user: LoginUser) => Promise<void>;
   signup: (user: SignupUser) => Promise<void>;
 }
-type AuthReturn<T extends AuthType> = T extends "login"
+type AuthReturn<T extends AuthType = "login"> = T extends "login"
   ? { error?: string; login: AuthFunctions["login"] }
   : { error?: string; signup: AuthFunctions["signup"] };
 
@@ -53,4 +53,31 @@ export const useAuthenticate = <T extends AuthType>(type: T): AuthReturn<T> => {
   const signup = async (user: SignupUser) => authenticate("signup", user);
 
   return { error, [type]: type === "login" ? login : signup } as AuthReturn<T>;
+};
+
+export const useLogout = () => {
+  const [loading, setLoading] = useState(false);
+  const { appPostFetch } = useFetch();
+  const { setUser } = useUser();
+  const router = useRouter();
+
+  const logout = async () => {
+    setLoading(true);
+
+    try {
+      const res = await appPostFetch("/api/logout");
+      if (!res || !res.ok) {
+        alert(unexpectedErrorMessage);
+      } else {
+        setUser(undefined);
+        router.push("/");
+      }
+    } catch (err) {
+      alert(unexpectedErrorMessage);
+    }
+
+    setLoading(false);
+  };
+
+  return { loading, logout };
 };

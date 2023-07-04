@@ -36,7 +36,7 @@ export const useFetch = () => {
 
   /** Wrapper that logs unexpected errors and sets up the request init for JSON bodies
     - When there are unexpected errors, the response is undefined. */
-  const appPostFetch = (url: RequestInfo | URL, body: unknown) =>
+  const appPostFetch = (url: RequestInfo | URL, body?: unknown) =>
     appFetch(url, {
       method: "POST",
       body: JSON.stringify(body),
