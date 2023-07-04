@@ -4,7 +4,7 @@ import { useUser } from "./user";
 import { LoginUser, SignupUser, UserResponseSuccess } from "@/types/user";
 import { unexpectedErrorMessage } from "@/utils/constants";
 import { BaseResponseData } from "@/types/response";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type AuthType = "login" | "signup";
 interface AuthFunctions {
@@ -80,4 +80,13 @@ export const useLogout = () => {
   };
 
   return { loading, logout };
+};
+
+export const useRedirectAuthenticated = () => {
+  const { user } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    user && router.push("/dashboard");
+  }, [user]);
 };

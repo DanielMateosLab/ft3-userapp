@@ -1,11 +1,15 @@
 import Button from "@/components/Button";
 import FormTextInput from "@/components/FormTextInput";
-import { useAuthenticate } from "@/services/authentication";
+import {
+  useAuthenticate,
+  useRedirectAuthenticated,
+} from "@/services/authentication";
 import { loginUserSchema } from "@/utils/validators/userValidator";
 import { Form, Formik } from "formik";
 
 export default function Login() {
   const { error, login } = useAuthenticate("login");
+  useRedirectAuthenticated();
 
   return (
     <div className="pt-4">
