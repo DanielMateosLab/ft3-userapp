@@ -1,0 +1,89 @@
+<article className="prose pt-4 pb-12">
+# User Auth Web App
+
+Here is my website submission for the Fathom3 frontend developer test.
+
+- I have developed a straightforward user authentication web app that permits users to sign up, log in, and log out. The app also features a dashboard page, accessible exclusively to logged-in users.
+- Given the time constraints, I prioritized code quality and testing, employing both Test Driven Development and Component Driven Development methodologies.
+- For the project, I utilized Next.js and Tailwind CSS. Storybook was employed for organizing the components. Testing was carried out using Jest and the React Testing Library.
+- Since I am applying for a frontend position, I incorporated a mock backend to save user data in memory. Although I used the API routes provided by Next.js to create the backend, the endpoints are relatively simple and don't reflect a real backend's complexity.
+- Lastly, to log in with a pre-existing user, you may use the account detailed in `/home/dani/personal/employees-crud/src/server/data.ts`. Here are the credentials (or alternatively, you can create a new account):
+  - Email: `hi@jhondoe.com`
+  - Password: `Jhondoe1111`
+
+## Requirements to run the project
+
+- Node.js installed on your system.
+- An installed package manager, npm or yarn.
+
+## Installation
+
+To install the packages, follow these steps:
+
+1. Open your terminal or command prompt.
+2. Navigate to the root directory of this project.
+3. Install the dependencies by running one of the following commands: (if using yarn, you might want to delete the `package-lock.json` file first)
+
+   With npm:
+
+   ```
+   npm install
+   ```
+
+   With yarn:
+
+   ```
+   yarn install
+   ```
+
+## Running the Web App
+
+To start the web app, run one of the following commands:
+
+With npm:
+
+```
+npm run build && npm start
+```
+
+With yarn:
+
+```
+yarn build && yarn start
+```
+
+This will start the application in production mode. To run in development mode, just execute `npm run dev` or `yarn dev`.
+
+## Running the Tests
+
+To run all the tests in a one-time mode:
+
+With npm:
+
+```
+npm run test-once
+```
+
+With yarn:
+
+```
+yarn test-once
+```
+
+## Running storybook to view the components
+
+To run storybook, run one of the following commands:
+
+With npm:
+
+```
+npm run storybook
+```
+
+With yarn:
+
+```
+yarn storybook
+```
+
+</article>
