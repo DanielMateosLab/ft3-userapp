@@ -1,24 +1,12 @@
-version: "3.8"
+version: "3"
+
 services:
-  web:
+  app:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile.app
-      target: runner
-    volumes:
-      - .:/app
-    command: npm run dev
     ports:
       - "3000:3000"
-    environment:
-      NODE_ENV: development
-
-  # storybook:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.storybook
-  #   ports:
-  #     - "6006:6006"
-  #   volumes:
-  #     - .:/app
-  #     - /app/node_modules
+    volumes:
+      - .:/app
+      - /app/node_modules
