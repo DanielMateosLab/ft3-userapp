@@ -84,3 +84,11 @@ With yarn:
 ```
 yarn storybook
 ```
+
+## Run directly using Docker
+
+Execute:
+
+```
+docker-compose up
+```
