@@ -1,12 +1,8 @@
-version: "3"
-
+version: "3.8"
 services:
-  app:
+  web:
     build:
-      context: .
       dockerfile: Dockerfile.app
+      context: ./
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
