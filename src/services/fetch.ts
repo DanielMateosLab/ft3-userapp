@@ -19,7 +19,10 @@ export const useFetch = () => {
     try {
       const res = await fetch(url, options);
 
-      if (!res.ok && res.headers.get("Content-Type") !== "application/json") {
+      if (
+        !res.ok &&
+        !res.headers.get("Content-Type")?.includes("application/json")
+      ) {
         // All the known errors have a json body
         // If it's does not have json, we log the status and statusText
         logger({
